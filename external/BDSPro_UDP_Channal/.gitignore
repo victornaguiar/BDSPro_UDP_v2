@@ -1,0 +1,5 @@
+# ignore build output
+target/
+**/*.exe
+**/*.pdb
+**/*.d
