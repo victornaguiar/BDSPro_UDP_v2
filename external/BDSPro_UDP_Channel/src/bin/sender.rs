@@ -5,8 +5,7 @@ use serde_json;
 use std::collections::HashMap;
 use std::sync::Arc;
 use tokio::sync::Mutex;
-mod message;
-use message::Message;
+use udp_channal_demo::Message;
 
 #[tokio::main]
 async fn main() -> std::io::Result<()> {

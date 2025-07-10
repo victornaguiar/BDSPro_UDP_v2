@@ -1,0 +1,34 @@
+# UDP Test Configuration
+# This demonstrates how UDP functionality could be integrated into the test framework
+# Currently, the test-node uses TCP (nes_network), but this shows the structure
+# for future UDP integration
+
+- connection: localhost:8000
+  bind: 0.0.0.0:8000
+  protocol: udp  # This would be a new field to specify UDP protocol
+  commands:
+    - type: StartUdpQuery  # New command type for UDP-specific queries
+      q:
+        type: UdpSource
+        target_port: 8001
+        message_rate: 100  # messages per second
+        test_duration: 5000  # 5 seconds
+    - type: Wait
+      millis: 6000
+    - type: StopQuery
+      id: 0
+
+- connection: localhost:8001
+  bind: 0.0.0.0:8001
+  protocol: udp
+  commands:
+    - type: StartUdpQuery
+      q:
+        type: UdpSink
+        expected_messages: 500
+        expected_messages_uncertainty: 50
+        test_retransmission: true  # Enable retransmission testing
+    - type: Wait
+      millis: 6000
+    - type: StopQuery
+      id: 0
