@@ -1,0 +1,86 @@
+version: '3.8'
+
+services:
+  # Source node - generates data
+  source-node:
+    build: .
+    container_name: bdspro-source
+    command: ["./bin/test-node", "configs/test.yml", "0"]
+    ports:
+      - "8000:8000"
+    networks:
+      - bdspro-network
+    environment:
+      - RUST_LOG=info
+      - RUST_BACKTRACE=1
+    depends_on:
+      - sink-node
+
+  # Sink node - consumes data
+  sink-node:
+    build: .
+    container_name: bdspro-sink
+    command: ["./bin/test-node", "configs/test.yml", "1"]
+    ports:
+      - "8001:8001"
+    networks:
+      - bdspro-network
+    environment:
+      - RUST_LOG=info
+      - RUST_BACKTRACE=1
+
+  # Bridge node example (for complex topologies)
+  bridge-node:
+    build: .
+    container_name: bdspro-bridge
+    command: ["./bin/test-node", "configs/test_nes_bridge.yml", "1"]
+    ports:
+      - "8002:8002"
+    networks:
+      - bdspro-network
+    environment:
+      - RUST_LOG=info
+      - RUST_BACKTRACE=1
+    profiles:
+      - bridge
+
+  # UDP sender example
+  udp-sender:
+    build: .
+    container_name: bdspro-udp-sender
+    command: ["./bin/sender"]
+    networks:
+      - bdspro-network
+    environment:
+      - RUST_LOG=info
+      - RUST_BACKTRACE=1
+    depends_on:
+      - udp-receiver
+    profiles:
+      - udp
+
+  # UDP receiver example
+  udp-receiver:
+    build: .
+    container_name: bdspro-udp-receiver
+    command: ["./bin/receiver"]
+    ports:
+      - "9090:9090/udp"
+    networks:
+      - bdspro-network
+    environment:
+      - RUST_LOG=info
+      - RUST_BACKTRACE=1
+    profiles:
+      - udp
+
+networks:
+  bdspro-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
+volumes:
+  bdspro-data:
+    driver: local

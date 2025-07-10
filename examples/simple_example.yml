@@ -1,0 +1,48 @@
+# Simple Source-Sink Configuration Example
+# This example shows how to set up a basic data pipeline with one source and one sink
+
+# Source Node Configuration
+- connection: localhost:8000
+  bind: 0.0.0.0:8000
+  commands:
+    # Start a source query that generates data
+    - type: StartQuery
+      q:
+        type: Source
+        downstream_channel: example_channel
+        downstream_connection: localhost:8001
+        ingestion_rate_in_milliseconds: 500  # Generate data every 500ms
+        should_be_closed: false
+    
+    # Wait for 10 seconds
+    - type: Wait
+      millis: 10000
+    
+    # Stop the source query
+    - type: StopQuery
+      id: 0
+
+# Sink Node Configuration
+- connection: localhost:8001
+  bind: 0.0.0.0:8001
+  commands:
+    # Start a sink query that consumes data
+    - type: StartQuery
+      q:
+        type: Sink
+        input_channel: example_channel
+        ingestion_rate_in_milliseconds: 100  # Process data every 100ms
+        expected_messages: 20                 # Expect about 20 messages
+        expected_messages_uncertainty: 5     # Allow ±5 messages variance
+    
+    # Wait for 11 seconds (slightly longer than source)
+    - type: Wait
+      millis: 11000
+    
+    # Stop the sink query
+    - type: StopQuery
+      id: 0
+
+# Usage:
+# Terminal 1: cargo run --bin test-node -- examples/simple_example.yml 0
+# Terminal 2: cargo run --bin test-node -- examples/simple_example.yml 1

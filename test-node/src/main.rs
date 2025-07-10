@@ -144,7 +144,7 @@ impl MissingSequenceTracker {
 }
 
 #[test]
-fn testSequenceTrackerMissingOne() {
+fn test_sequence_tracker_missing_one() {
     let mut tracker = MissingSequenceTracker::default();
     for i in 1..1004 {
         if i == 100 || i == 193 || i == 210 {
@@ -162,13 +162,13 @@ fn testSequenceTrackerMissingOne() {
     tracker.add(1005);
 }
 #[test]
-fn testSequenceTrackerMissing() {
+fn test_sequence_tracker_missing() {
     let tracker = MissingSequenceTracker::default();
 
     assert_eq!(tracker.query(), 1);
 }
 #[test]
-fn testSequenceTrackerOOMissing() {
+fn test_sequence_tracker_oo_missing() {
     let mut tracker = MissingSequenceTracker::default();
     tracker.add(1);
     tracker.add(4);
@@ -177,7 +177,7 @@ fn testSequenceTrackerOOMissing() {
     assert_eq!(tracker.query(), 3);
 }
 #[test]
-fn testSequenceTrackerOO() {
+fn test_sequence_tracker_oo() {
     let mut tracker = MissingSequenceTracker::default();
     tracker.add(1);
     tracker.add(3);
@@ -186,7 +186,7 @@ fn testSequenceTrackerOO() {
     assert_eq!(tracker.query(), 4);
 }
 #[test]
-fn testSequenceTracker() {
+fn test_sequence_tracker() {
     let mut tracker = MissingSequenceTracker::default();
     tracker.add(1);
     tracker.add(2);

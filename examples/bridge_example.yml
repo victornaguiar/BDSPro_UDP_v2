@@ -1,0 +1,56 @@
+# Bridge Configuration Example
+# This example shows how to set up a bridge node that forwards data between two connections
+
+# Source Node Configuration
+- connection: localhost:8000
+  bind: 0.0.0.0:8000
+  commands:
+    - type: StartQuery
+      q:
+        type: Source
+        downstream_channel: input_channel
+        downstream_connection: localhost:8001
+        ingestion_rate_in_milliseconds: 200
+        should_be_closed: false
+    - type: Wait
+      millis: 15000
+    - type: StopQuery
+      id: 0
+
+# Bridge Node Configuration
+- connection: localhost:8001
+  bind: 0.0.0.0:8001
+  commands:
+    - type: StartQuery
+      q:
+        type: Bridge
+        input_channel: input_channel
+        downstream_channel: output_channel
+        downstream_connection: localhost:8002
+        ingestion_rate_in_milliseconds: 100
+        should_be_closed: false
+    - type: Wait
+      millis: 16000
+    - type: StopQuery
+      id: 0
+
+# Sink Node Configuration
+- connection: localhost:8002
+  bind: 0.0.0.0:8002
+  commands:
+    - type: StartQuery
+      q:
+        type: Sink
+        input_channel: output_channel
+        ingestion_rate_in_milliseconds: 50
+        expected_messages: 75
+        expected_messages_uncertainty: 10
+    - type: Wait
+      millis: 17000
+    - type: StopQuery
+      id: 0
+
+# Usage:
+# Terminal 1: cargo run --bin test-node -- examples/bridge_example.yml 0
+# Terminal 2: cargo run --bin test-node -- examples/bridge_example.yml 1  
+# Terminal 3: cargo run --bin test-node -- examples/bridge_example.yml 2

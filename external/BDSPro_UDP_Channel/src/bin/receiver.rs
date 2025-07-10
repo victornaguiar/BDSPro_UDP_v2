@@ -19,7 +19,7 @@ async fn main() -> io::Result<()> {
     let mut received_seqs = HashSet::new();
 
     // (Declared but not used) could be used for strict in-order delivery
-    let mut expected_seq = 1u64;
+    let _expected_seq = 1u64;
 
     // Simple counter to trigger a re-request every 3 messages
     let mut msg_count = 0;

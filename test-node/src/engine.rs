@@ -45,7 +45,7 @@ impl SourceNode {
     fn start(&self, queue: Arc<Queue>, query_id: usize) {
         let successor = self.successor.clone();
         let emit_fn = Box::new(move |buffer| {
-            queue.push(Task::Compute(query_id, buffer, successor.clone()));
+            let _ = queue.push(Task::Compute(query_id, buffer, successor.clone()));
         }) as EmitFn;
         self.implementation.start(emit_fn);
     }
