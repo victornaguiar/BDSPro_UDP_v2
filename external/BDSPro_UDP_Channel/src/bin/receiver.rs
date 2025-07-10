@@ -3,8 +3,7 @@ use std::collections::HashSet;
 use tokio::io;
 use serde_json;
 use rand::Rng;         // for random number generation
-mod message;
-use message::Message;
+use udp_channal_demo::Message;
 
 #[tokio::main]
 async fn main() -> io::Result<()> {

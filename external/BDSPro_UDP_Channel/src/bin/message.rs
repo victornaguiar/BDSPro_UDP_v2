@@ -8,4 +8,6 @@ pub struct Message {
     
 }
 
-fn main() {}
+fn main() {
+    println!("This binary is deprecated. Use the library instead.");
+}
