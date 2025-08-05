@@ -1,0 +1,10 @@
+bind_address: 127.0.0.1:8080
+expected_messages: 10
+timeout_seconds: 30
+enable_stats: true
+stats_interval_seconds: 5
+flow_control:
+  send_window_size: 10
+  receive_buffer_size: 50
+  ack_timeout_ms: 1000
+  send_timeout_ms: 5000

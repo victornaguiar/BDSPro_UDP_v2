@@ -1,0 +1,12 @@
+# Sensor Simulation Configuration
+# Simulates a sensor sending data every 2 seconds
+target_address: 127.0.0.1:8080
+bind_address: 127.0.0.1:0
+interval_ms: 2000                   # Every 2 seconds
+message_count: 0                    # Infinite (until stopped)
+message_template: 'SENSOR_DATA,seq={seq},timestamp={timestamp},temp=23.5,humidity=65.2,pressure=1013.25'
+flow_control:
+  send_window_size: 5
+  receive_buffer_size: 20
+  ack_timeout_ms: 2000
+  send_timeout_ms: 10000
