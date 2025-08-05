@@ -143,6 +143,26 @@ Additional components for specialized use cases:
    cargo run --bin sender
    ```
 
+#### Automatic UDP Packet Sending
+
+For automated testing and performance evaluation, use the `auto_sender` binary:
+
+1. Start the UDP receiver:
+   ```bash
+   cargo run --bin receiver
+   ```
+
+2. Send packets automatically for XXX seconds at YYY packets per second:
+   ```bash
+   # Send 50 packets over 10 seconds (5 packets/sec)
+   cargo run --bin auto_sender -- --duration 10 --rate 5 --verbose
+   
+   # High-rate testing: 100 packets/sec for 30 seconds
+   cargo run --bin auto_sender -- --duration 30 --rate 100 --window-size 50
+   ```
+
+See [AUTO_SENDER_USAGE.md](AUTO_SENDER_USAGE.md) for detailed usage instructions.
+
 ### Configuration
 
 The system uses YAML configuration files to define node behavior. Each node configuration includes:
