@@ -6,12 +6,16 @@
   bind: 0.0.0.0:8000
   commands:
     # Start a source query that generates data
+    # Wait for 2 seconds to sink-startup
+    - type: Wait
+      millis: 2000
+
     - type: StartQuery
       q:
         type: Source
         downstream_channel: example_channel
         downstream_connection: localhost:8001
-        ingestion_rate_in_milliseconds: 500  # Generate data every 500ms
+        ingestion_rate_in_milliseconds: 10  # Generate data every 10 ms
         should_be_closed: false
     
     # Wait for 10 seconds
@@ -31,13 +35,13 @@
       q:
         type: Sink
         input_channel: example_channel
-        ingestion_rate_in_milliseconds: 100  # Process data every 100ms
-        expected_messages: 20                 # Expect about 20 messages
+        ingestion_rate_in_milliseconds: 1  # Process data every 1 ms
+        expected_messages: 1000                 # Expect about 1000 messages
         expected_messages_uncertainty: 5     # Allow ±5 messages variance
     
-    # Wait for 11 seconds (slightly longer than source)
+    # Wait for 14 seconds (slightly longer than source)
     - type: Wait
-      millis: 11000
+      millis: 14000
     
     # Stop the sink query
     - type: StopQuery
