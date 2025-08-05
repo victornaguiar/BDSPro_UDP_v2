@@ -1,0 +1,12 @@
+# High-Frequency Test Configuration
+# Receiver: Handles high-frequency messages with robust settings
+bind_address: 127.0.0.1:8080
+expected_messages: 0                # Infinite
+timeout_seconds: 0                  # No timeout
+enable_stats: true
+stats_interval_seconds: 2           # Stats every 2 seconds
+flow_control:
+  send_window_size: 50              # Large window
+  receive_buffer_size: 200          # Large buffer
+  ack_timeout_ms: 500
+  send_timeout_ms: 5000

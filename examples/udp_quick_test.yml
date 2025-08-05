@@ -1,0 +1,8 @@
+# Quick UDP Test Configuration
+# Sender: Sends 5 messages quickly for testing
+target_address: 127.0.0.1:8080
+bind_address: 127.0.0.1:0
+interval_ms: 500                    # 500ms between messages
+message_count: 5                    # Just 5 messages
+message_template: 'Quick test message #{seq} at {timestamp}'
+# No flow control for simplicity
