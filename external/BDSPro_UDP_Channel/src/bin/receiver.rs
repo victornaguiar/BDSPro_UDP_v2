@@ -8,8 +8,8 @@ use udp_channal_demo::Message;
 #[tokio::main]
 async fn main() -> io::Result<()> {
     // Bind to localhost:8080 and start listening
-    let socket = UdpSocket::bind("127.0.0.1:8080").await?;
-    println!("UDP Receiver runs on 127.0.0.1:8080");
+    let socket = UdpSocket::bind("127.0.0.1:8001").await?;
+    println!("UDP Receiver runs on 127.0.0.1:8001");
     println!("Enhanced receiver with gap detection and automatic retransmission requests");
     println!("Messagestructure: Typ | SEQ | DATA");
     
